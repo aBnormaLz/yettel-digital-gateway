@@ -1,0 +1,44 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.4'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id "org.openapi.generator" version "7.4.0"
+}
+
+group = 'hu.yettel'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework:spring-web'
+	implementation 'org.springframework.boot:spring-boot-starter-graphql'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+openApiGenerate {
+    inputSpec.set("$projectDir/src/main/resources/TMF629-Customer_Management-v5.0.1.oas.yaml")
+    generatorName.set("spring")
+    packageName.set("hu.yettel.homework.service.dto")
+    outputDir.set("$projectDir/src/main/generated/openapi")
+    configOptions.set([
+        dateLibrary: "java8",
+        useTags: "true",
+        interfaceOnly: "true"
+    ])
+}

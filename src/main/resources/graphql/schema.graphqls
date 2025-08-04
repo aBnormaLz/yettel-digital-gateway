@@ -1,0 +1,34 @@
+type Query {
+    customer(id: String!): Customer
+}
+
+type Customer {
+    href: String
+    id: String
+    name: String
+    status: String
+    engagedParty: EngagedParty
+    contactMedium: [ContactMedium]
+}
+
+type EngagedParty {
+    href: String
+    id: String
+    name: String
+}
+
+type ContactMedium {
+    preferred: Boolean,
+    contactType: String,
+    validFor: ValidFor,
+    phoneNumber: String,
+    city: String,
+    country :String,
+    postCode: String,
+    street1: String
+}
+
+type ValidFor {
+    startDateTime: String
+    endDateTime: String
+}

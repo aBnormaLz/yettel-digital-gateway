@@ -1,0 +1,28 @@
+services:
+  customer-management-api:
+    container_name: customer-management-api
+    build:
+      context: ../customer-management-api
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    volumes:
+      - ../customer-management-api:/app
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: always
+  digital-gateway:
+    container_name: digital-gateway
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    depends_on:
+      - customer-management-api
+    environment:
+      - api.tmf.base-url=http://customer-management-api:8080/tmf-api/customer/v5
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: always
